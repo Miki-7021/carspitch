@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://autoreport.be/sitemap.xml
