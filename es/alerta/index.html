@@ -112,8 +112,8 @@ form button:disabled { opacity:.6; cursor:progress; }
       <select id="country" name="country"><option value="BE">Bélgica</option><option value="FR">Francia</option><option value="NL">Países Bajos</option><option value="DE">Alemania</option><option value="LU">Luxemburgo</option><option value="ES">España</option><option value="IT">Italia</option><option value="IE">Irlanda</option><option value="autre">Otro</option></select>
     </div>
     <div class="field">
-      <label for="contact">Tu correo o tu usuario de Telegram <span class="optional">(Opcional — solo para responderte)</span></label>
-      <input id="contact" name="contact" type="text" maxlength="120" autocomplete="email">
+      <label for="contact">Tu correo (obligatorio) <span class="optional">(Recibirás un enlace para publicar tu solicitud)</span></label>
+      <input id="contact" name="contact" type="email" maxlength="120" autocomplete="email" required>
     </div>
 
     <div class="hp" aria-hidden="true">
@@ -123,7 +123,7 @@ form button:disabled { opacity:.6; cursor:progress; }
 
     <label class="consent">
       <input id="consent" type="checkbox" required>
-      <span>Acepto que mi petición se publique de forma anónima en el canal de Telegram. Mis datos de contacto no se publican.</span>
+      <span>Acepto recibir un correo de confirmación y que mi solicitud se publique de forma anónima en el canal de Telegram. Mis datos no se publican.</span>
     </label>
 
     <p class="note">El canal de Telegram es público: no incluyas teléfono, dirección ni matrícula en el campo «coche buscado».</p>
@@ -136,7 +136,7 @@ form button:disabled { opacity:.6; cursor:progress; }
 <script>
 const ENDPOINT = "";
 const CONTACT = 'contact@carspitch.app';
-const MESSAGES = {"success":"Petición enviada. Se publicará en el canal tras revisión.","error":"El envío falló. Inténtalo de nuevo en un momento.","fallback":"Último paso: envía el correo que acaba de abrirse.","invalid":"Indica al menos la marca y el modelo.","sending":"Enviando…"};
+const MESSAGES = {"success":"Solicitud guardada. Abre el correo que acabamos de enviarte y haz clic en el enlace: tu solicitud se publicará en el canal.","error":"El envío falló. Inténtalo de nuevo en un momento.","fallback":"Último paso: envía el correo que acaba de abrirse.","invalid":"Indica al menos la marca y el modelo.","emailRequired":"Se necesita un correo válido para confirmar tu solicitud.","sending":"Enviando…"};
 const LANG = "es";
 
 const form = document.getElementById('alert-form');
@@ -152,6 +152,16 @@ form.addEventListener('submit', async (event) => {
     feedback.className = 'feedback err';
     return;
   }
+
+  const emailInput = document.getElementById('contact');
+  const email = emailInput.value.trim();
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) {
+    feedback.textContent = MESSAGES.emailRequired;
+    feedback.className = 'feedback err';
+    return;
+  }
+
+  if (!document.getElementById('consent').checked) return;
 
   const data = {
     vehicle,

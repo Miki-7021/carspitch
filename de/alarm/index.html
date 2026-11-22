@@ -112,8 +112,8 @@ form button:disabled { opacity:.6; cursor:progress; }
       <select id="country" name="country"><option value="BE">Belgien</option><option value="FR">Frankreich</option><option value="NL">Niederlande</option><option value="DE">Deutschland</option><option value="LU">Luxemburg</option><option value="ES">Spanien</option><option value="IT">Italien</option><option value="IE">Irland</option><option value="autre">Andere</option></select>
     </div>
     <div class="field">
-      <label for="contact">Ihre E-Mail oder Ihr Telegram-Name <span class="optional">(Optional — nur für unsere Antwort)</span></label>
-      <input id="contact" name="contact" type="text" maxlength="120" autocomplete="email">
+      <label for="contact">Ihre E-Mail (erforderlich) <span class="optional">(Sie erhalten einen Link, um Ihre Anfrage zu veröffentlichen)</span></label>
+      <input id="contact" name="contact" type="email" maxlength="120" autocomplete="email" required>
     </div>
 
     <div class="hp" aria-hidden="true">
@@ -123,7 +123,7 @@ form button:disabled { opacity:.6; cursor:progress; }
 
     <label class="consent">
       <input id="consent" type="checkbox" required>
-      <span>Ich bin einverstanden, dass meine Anfrage anonym im Telegram-Kanal erscheint. Meine Kontaktdaten werden nicht veröffentlicht.</span>
+      <span>Ich stimme dem Erhalt einer Bestätigungs-E-Mail zu und dass meine Anfrage anonym im Telegram-Kanal erscheint. Meine Kontaktdaten werden nicht veröffentlicht.</span>
     </label>
 
     <p class="note">Der Telegram-Kanal ist öffentlich: keine Telefonnummer, Adresse oder Kennzeichen im Feld „Gesuchtes Fahrzeug“.</p>
@@ -136,7 +136,7 @@ form button:disabled { opacity:.6; cursor:progress; }
 <script>
 const ENDPOINT = "";
 const CONTACT = 'contact@carspitch.app';
-const MESSAGES = {"success":"Anfrage gesendet. Sie wird nach Prüfung im Kanal veröffentlicht.","error":"Senden fehlgeschlagen. Bitte später erneut versuchen.","fallback":"Letzter Schritt: die gerade geöffnete E-Mail absenden.","invalid":"Bitte mindestens Marke und Modell angeben.","sending":"Wird gesendet…"};
+const MESSAGES = {"success":"Anfrage gespeichert. Öffnen Sie die gerade gesendete E-Mail und klicken Sie auf den Link: Ihre Anfrage wird dann im Kanal veröffentlicht.","error":"Senden fehlgeschlagen. Bitte später erneut versuchen.","fallback":"Letzter Schritt: die gerade geöffnete E-Mail absenden.","invalid":"Bitte mindestens Marke und Modell angeben.","emailRequired":"Eine gültige E-Mail-Adresse ist zur Bestätigung erforderlich.","sending":"Wird gesendet…"};
 const LANG = "de";
 
 const form = document.getElementById('alert-form');
@@ -152,6 +152,16 @@ form.addEventListener('submit', async (event) => {
     feedback.className = 'feedback err';
     return;
   }
+
+  const emailInput = document.getElementById('contact');
+  const email = emailInput.value.trim();
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) {
+    feedback.textContent = MESSAGES.emailRequired;
+    feedback.className = 'feedback err';
+    return;
+  }
+
+  if (!document.getElementById('consent').checked) return;
 
   const data = {
     vehicle,

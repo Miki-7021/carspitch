@@ -112,8 +112,8 @@ form button:disabled { opacity:.6; cursor:progress; }
       <select id="country" name="country"><option value="BE">Belgium</option><option value="FR">France</option><option value="NL">Netherlands</option><option value="DE">Germany</option><option value="LU">Luxembourg</option><option value="ES">Spain</option><option value="IT">Italy</option><option value="IE">Ireland</option><option value="autre">Other</option></select>
     </div>
     <div class="field">
-      <label for="contact">Your e-mail or Telegram handle <span class="optional">(Optional — only used to reply to you)</span></label>
-      <input id="contact" name="contact" type="text" maxlength="120" autocomplete="email">
+      <label for="contact">Your e-mail (required) <span class="optional">(You will receive a link to publish your request)</span></label>
+      <input id="contact" name="contact" type="email" maxlength="120" autocomplete="email" required>
     </div>
 
     <div class="hp" aria-hidden="true">
@@ -123,7 +123,7 @@ form button:disabled { opacity:.6; cursor:progress; }
 
     <label class="consent">
       <input id="consent" type="checkbox" required>
-      <span>I agree that my request is published anonymously on the Telegram channel. My contact details are not published.</span>
+      <span>I agree to receive a confirmation e-mail and that my request is published anonymously on the Telegram channel. My contact details are not published.</span>
     </label>
 
     <p class="note">The Telegram channel is public: do not include a phone number, address or plate in the “car wanted” field.</p>
@@ -136,7 +136,7 @@ form button:disabled { opacity:.6; cursor:progress; }
 <script>
 const ENDPOINT = "";
 const CONTACT = 'contact@carspitch.app';
-const MESSAGES = {"success":"Request sent. It will be published on the channel after review.","error":"Sending failed. Please try again shortly.","fallback":"Last step: send the e-mail that just opened.","invalid":"Please enter at least the brand and model.","sending":"Sending…"};
+const MESSAGES = {"success":"Request saved. Open the e-mail we just sent and click the link: your request will then be published on the channel.","error":"Sending failed. Please try again shortly.","fallback":"Last step: send the e-mail that just opened.","invalid":"Please enter at least the brand and model.","emailRequired":"A valid e-mail address is required to confirm your request.","sending":"Sending…"};
 const LANG = "en";
 
 const form = document.getElementById('alert-form');
@@ -152,6 +152,16 @@ form.addEventListener('submit', async (event) => {
     feedback.className = 'feedback err';
     return;
   }
+
+  const emailInput = document.getElementById('contact');
+  const email = emailInput.value.trim();
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) {
+    feedback.textContent = MESSAGES.emailRequired;
+    feedback.className = 'feedback err';
+    return;
+  }
+
+  if (!document.getElementById('consent').checked) return;
 
   const data = {
     vehicle,

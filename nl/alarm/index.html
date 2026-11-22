@@ -112,8 +112,8 @@ form button:disabled { opacity:.6; cursor:progress; }
       <select id="country" name="country"><option value="BE">België</option><option value="FR">Frankrijk</option><option value="NL">Nederland</option><option value="DE">Duitsland</option><option value="LU">Luxemburg</option><option value="ES">Spanje</option><option value="IT">Italië</option><option value="IE">Ierland</option><option value="autre">Andere</option></select>
     </div>
     <div class="field">
-      <label for="contact">Uw e-mail of Telegram-naam <span class="optional">(Optioneel — alleen om u te antwoorden)</span></label>
-      <input id="contact" name="contact" type="text" maxlength="120" autocomplete="email">
+      <label for="contact">Uw e-mail (verplicht) <span class="optional">(U ontvangt een link om uw aanvraag te publiceren)</span></label>
+      <input id="contact" name="contact" type="email" maxlength="120" autocomplete="email" required>
     </div>
 
     <div class="hp" aria-hidden="true">
@@ -123,7 +123,7 @@ form button:disabled { opacity:.6; cursor:progress; }
 
     <label class="consent">
       <input id="consent" type="checkbox" required>
-      <span>Ik ga ermee akkoord dat mijn aanvraag anoniem op het Telegram-kanaal verschijnt. Mijn contactgegevens worden niet gepubliceerd.</span>
+      <span>Ik ga akkoord met een bevestigingsmail en dat mijn aanvraag anoniem op het Telegram-kanaal verschijnt. Mijn contactgegevens worden niet gepubliceerd.</span>
     </label>
 
     <p class="note">Het Telegram-kanaal is openbaar: geen telefoonnummer, adres of nummerplaat in het veld “Gezochte wagen”.</p>
@@ -136,7 +136,7 @@ form button:disabled { opacity:.6; cursor:progress; }
 <script>
 const ENDPOINT = "";
 const CONTACT = 'contact@carspitch.app';
-const MESSAGES = {"success":"Aanvraag verstuurd. Ze verschijnt na controle op het kanaal.","error":"Versturen mislukt. Probeer het straks opnieuw.","fallback":"Laatste stap: verstuur de e-mail die net opende.","invalid":"Vermeld minstens merk en model.","sending":"Versturen…"};
+const MESSAGES = {"success":"Aanvraag opgeslagen. Open de e-mail die we net stuurden en klik op de link: uw aanvraag verschijnt dan op het kanaal.","error":"Versturen mislukt. Probeer het straks opnieuw.","fallback":"Laatste stap: verstuur de e-mail die net opende.","invalid":"Vermeld minstens merk en model.","emailRequired":"Een geldig e-mailadres is nodig om uw aanvraag te bevestigen.","sending":"Versturen…"};
 const LANG = "nl";
 
 const form = document.getElementById('alert-form');
@@ -152,6 +152,16 @@ form.addEventListener('submit', async (event) => {
     feedback.className = 'feedback err';
     return;
   }
+
+  const emailInput = document.getElementById('contact');
+  const email = emailInput.value.trim();
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) {
+    feedback.textContent = MESSAGES.emailRequired;
+    feedback.className = 'feedback err';
+    return;
+  }
+
+  if (!document.getElementById('consent').checked) return;
 
   const data = {
     vehicle,
