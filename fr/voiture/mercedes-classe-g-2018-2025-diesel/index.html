@@ -26,6 +26,8 @@ header.site { border-bottom:1px solid var(--line); background:#fff; }
 header.site .wrap { display:flex; justify-content:space-between; align-items:center; gap:14px; padding:14px 18px; flex-wrap:wrap; }
 header.site strong { font-size:18px; letter-spacing:-.01em; }
 header.site nav a { color:var(--muted); text-decoration:none; font-size:14px; }
+header.site nav.pages { display:flex; gap:14px; flex-wrap:wrap; }
+header.site nav.pages a:hover { color:var(--accent); }
 .langs { display:flex; gap:6px; flex-wrap:wrap; }
 .langs a { font-size:12px; font-weight:700; letter-spacing:.04em; text-decoration:none; color:var(--muted);
            border:1px solid var(--line); border-radius:8px; padding:4px 8px; background:#fff; }
@@ -60,7 +62,11 @@ footer { color: var(--muted); font-size:13px; border-top:1px solid var(--line); 
   <div class="wrap">
     <strong>Carspitch</strong>
     <nav class="langs" aria-label="Langue"><a href="/fr/voiture/mercedes-classe-g-2018-2025-diesel/" hreflang="fr" lang="fr" aria-current="true">FR</a><a href="/en/car/mercedes-classe-g-2018-2025-diesel/" hreflang="en" lang="en">EN</a><a href="/de/auto/mercedes-classe-g-2018-2025-diesel/" hreflang="de" lang="de">DE</a><a href="/nl/auto/mercedes-classe-g-2018-2025-diesel/" hreflang="nl" lang="nl">NL</a><a href="/es/coche/mercedes-classe-g-2018-2025-diesel/" hreflang="es" lang="es">ES</a><a href="/it/auto/mercedes-classe-g-2018-2025-diesel/" hreflang="it" lang="it">IT</a></nav>
-    <nav><a href="/fr/">Toutes les fiches</a></nav>
+    <nav class="pages">
+      <a href="/fr/">Toutes les fiches</a>
+      <a href="/fr/methode/">Méthode</a>
+      <a href="/fr/a-propos/">À propos</a>
+    </nav>
   </div>
 </header>
 <main class="wrap">

@@ -26,6 +26,8 @@ header.site { border-bottom:1px solid var(--line); background:#fff; }
 header.site .wrap { display:flex; justify-content:space-between; align-items:center; gap:14px; padding:14px 18px; flex-wrap:wrap; }
 header.site strong { font-size:18px; letter-spacing:-.01em; }
 header.site nav a { color:var(--muted); text-decoration:none; font-size:14px; }
+header.site nav.pages { display:flex; gap:14px; flex-wrap:wrap; }
+header.site nav.pages a:hover { color:var(--accent); }
 .langs { display:flex; gap:6px; flex-wrap:wrap; }
 .langs a { font-size:12px; font-weight:700; letter-spacing:.04em; text-decoration:none; color:var(--muted);
            border:1px solid var(--line); border-radius:8px; padding:4px 8px; background:#fff; }
@@ -60,7 +62,11 @@ footer { color: var(--muted); font-size:13px; border-top:1px solid var(--line); 
   <div class="wrap">
     <strong>Carspitch</strong>
     <nav class="langs" aria-label="Lingua"><a href="/fr/voiture/ds-ds7-2017-2025-hybride/" hreflang="fr" lang="fr">FR</a><a href="/en/car/ds-ds7-2017-2025-hybride/" hreflang="en" lang="en">EN</a><a href="/de/auto/ds-ds7-2017-2025-hybride/" hreflang="de" lang="de">DE</a><a href="/nl/auto/ds-ds7-2017-2025-hybride/" hreflang="nl" lang="nl">NL</a><a href="/es/coche/ds-ds7-2017-2025-hybride/" hreflang="es" lang="es">ES</a><a href="/it/auto/ds-ds7-2017-2025-hybride/" hreflang="it" lang="it" aria-current="true">IT</a></nav>
-    <nav><a href="/it/">Tutte le schede</a></nav>
+    <nav class="pages">
+      <a href="/it/">Tutte le schede</a>
+      <a href="/it/metodo/">Metodo</a>
+      <a href="/it/chi-siamo/">Chi siamo</a>
+    </nav>
   </div>
 </header>
 <main class="wrap">

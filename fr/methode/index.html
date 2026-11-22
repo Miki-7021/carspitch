@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Méthode et sources — comment nos fiches de fiabilité sont établies</title>
+<meta name="description" content="Sources utilisées, calcul du score de fiabilité, signification des verdicts, limites et mises à jour : la méthode complète derrière chaque fiche Carspitch.">
+<link rel="canonical" href="https://carspitch.app/fr/methode/">
+<link rel="alternate" hreflang="fr" href="https://carspitch.app/fr/methode/">
+<link rel="alternate" hreflang="en" href="https://carspitch.app/en/method/">
+<link rel="alternate" hreflang="de" href="https://carspitch.app/de/methode/">
+<link rel="alternate" hreflang="nl" href="https://carspitch.app/nl/methode/">
+<link rel="alternate" hreflang="es" href="https://carspitch.app/es/metodo/">
+<link rel="alternate" hreflang="it" href="https://carspitch.app/it/metodo/">
+<link rel="alternate" hreflang="x-default" href="https://carspitch.app/fr/methode/">
+<meta property="og:title" content="Méthode et sources — comment nos fiches de fiabilité sont établies">
+<meta property="og:description" content="Sources utilisées, calcul du score de fiabilité, signification des verdicts, limites et mises à jour : la méthode complète derrière chaque fiche Carspitch.">
+<meta property="og:type" content="article">
+<style>
+:root { --ink:#0f172a; --muted:#64748b; --line:#e2e8f0; --bg:#f8fafc; --accent:#0ea5e9; }
+* { box-sizing: border-box; }
+body { margin:0; font:16px/1.6 system-ui,-apple-system,"Segoe UI",sans-serif; color:var(--ink); background:var(--bg); }
+a { color:var(--accent); }
+.wrap { max-width: 860px; margin: 0 auto; padding: 24px 18px 64px; }
+header.site { border-bottom:1px solid var(--line); background:#fff; }
+header.site .wrap { display:flex; justify-content:space-between; align-items:center; gap:14px; padding:14px 18px; flex-wrap:wrap; }
+header.site strong { font-size:18px; letter-spacing:-.01em; }
+header.site nav a { color:var(--muted); text-decoration:none; font-size:14px; }
+header.site nav.pages { display:flex; gap:14px; flex-wrap:wrap; }
+header.site nav.pages a:hover { color:var(--accent); }
+.langs { display:flex; gap:6px; flex-wrap:wrap; }
+.langs a { font-size:12px; font-weight:700; letter-spacing:.04em; text-decoration:none; color:var(--muted);
+           border:1px solid var(--line); border-radius:8px; padding:4px 8px; background:#fff; }
+.langs a[aria-current="true"] { color:#fff; background:var(--ink); border-color:var(--ink); }
+.langs a:hover { border-color:var(--accent); color:var(--accent); }
+h1 { font-size: 30px; line-height:1.25; margin: 28px 0 6px; letter-spacing:-.02em; }
+.sub { color: var(--muted); margin: 0 0 22px; }
+.badges { display:flex; flex-wrap:wrap; gap:8px; margin: 0 0 24px; }
+.badge { display:inline-flex; align-items:center; gap:6px; padding:6px 12px; border-radius:999px;
+         font-size:13px; font-weight:600; background:#fff; border:1px solid var(--line); }
+.badge.buy { color:#047857; border-color:#a7f3d0; background:#ecfdf5; }
+.badge.avoid { color:#b91c1c; border-color:#fecaca; background:#fef2f2; }
+.badge.negociate { color:#b45309; border-color:#fde68a; background:#fffbeb; }
+section { background:#fff; border:1px solid var(--line); border-radius:14px; padding: 20px 22px; margin: 0 0 18px; }
+section h2 { margin: 0 0 12px; font-size: 19px; letter-spacing:-.01em; }
+section h2 .count { color:var(--muted); font-weight:600; font-size:14px; }
+h3.cat { margin:16px 0 6px; font-size:14px; color:var(--muted); text-transform:uppercase; letter-spacing:.05em; }
+ul { margin: 0; padding-left: 20px; } li { margin: 4px 0; }
+p { margin: 0 0 12px; } p:last-child { margin-bottom: 0; }
+.muted { color: var(--muted); }
+table { width:100%; border-collapse: collapse; margin: 10px 0; font-size:14px; }
+th, td { text-align:left; padding:8px 10px; border-bottom:1px solid var(--line); vertical-align: top; }
+th { color: var(--muted); font-weight:600; font-size:13px; text-transform:uppercase; letter-spacing:.04em; }
+footer { color: var(--muted); font-size:13px; border-top:1px solid var(--line); margin-top:32px; padding-top:16px; }
+.filters { display:flex; gap:10px; flex-wrap:wrap; }
+.filters input, .filters select { padding:9px 11px; border:1px solid var(--line); border-radius:10px; font:inherit; background:#fff; }
+</style>
+
+</head>
+<body>
+<header class="site">
+  <div class="wrap">
+    <strong>Carspitch</strong>
+    <nav class="langs" aria-label="Langue"><a href="/fr/methode/" hreflang="fr" lang="fr" aria-current="true">FR</a><a href="/en/method/" hreflang="en" lang="en">EN</a><a href="/de/methode/" hreflang="de" lang="de">DE</a><a href="/nl/methode/" hreflang="nl" lang="nl">NL</a><a href="/es/metodo/" hreflang="es" lang="es">ES</a><a href="/it/metodo/" hreflang="it" lang="it">IT</a></nav>
+    <nav class="pages">
+      <a href="/fr/">Toutes les fiches</a>
+      <a href="/fr/methode/">Méthode</a>
+      <a href="/fr/a-propos/">À propos</a>
+    </nav>
+  </div>
+</header>
+<main class="wrap">
+
+<h1>Méthode et sources</h1>
+<p class="sub">Chaque fiche repose sur des sources publiques identifiables. Voici lesquelles, comment elles sont combinées, et ce que le résultat ne prétend pas être.</p>
+<section><h2>Les sources</h2><p>Les fiches sont établies à partir de publications et de bases de données publiques, pas de tests réalisés par nos soins :</p>
+<ul>
+  <li><strong>Statistiques de pannes</strong> — ADAC Pannenstatistik (Allemagne) et rapports TÜV/DEKRA : fréquence et nature des défaillances par modèle et par année.</li>
+  <li><strong>Enquêtes de fiabilité</strong> — What Car? Reliability Survey (Royaume-Uni), L'Argus et Auto Plus (France) : retours de propriétaires.</li>
+  <li><strong>Rappels officiels</strong> — EU Safety Gate (ex-RAPEX), KBA (Kraftfahrt-Bundesamt), campagnes de rappel des constructeurs.</li>
+  <li><strong>Documentation technique</strong> — périodicité d'entretien, coûts de pièces et disponibilité des références.</li>
+</ul>
+<p>Chaque fiche cite ses sources dans la section « Sources », en bas de page.</p></section>
+<section><h2>Le score de fiabilité</h2><p>Le score, sur 100, synthétise trois éléments :</p>
+<ul>
+  <li><strong>la fréquence</strong> des défaillances signalées pour ce modèle et cette génération ;</li>
+  <li><strong>la gravité</strong> — une panne immobilisante compte plus qu'un capteur défaillant ;</li>
+  <li><strong>le coût</strong> de la réparation, rapporté à la valeur du véhicule.</li>
+</ul>
+<p>Repères de lecture : <strong>85 et plus</strong> — modèle parmi les plus fiables de sa catégorie ; <strong>70 à 84</strong> — bon niveau, quelques points de vigilance ; <strong>55 à 69</strong> — fiabilité moyenne, entretien suivi indispensable ; <strong>moins de 55</strong> — risques récurrents, à réserver à un acheteur averti.</p>
+<p>Le score porte sur le <em>modèle</em>, jamais sur un exemplaire précis. Un modèle fiable peut avoir été mal entretenu.</p></section>
+<section><h2>Les verdicts</h2><ul>
+  <li><strong>Acheter</strong> — fiabilité solide, pièces accessibles, pas de défaut structurel connu.</li>
+  <li><strong>Négocier</strong> — véhicule recommandable, mais avec un point faible identifié qui justifie une remise ou une vérification avant achat.</li>
+  <li><strong>Éviter</strong> — défauts récurrents coûteux ou sécurité insuffisante pour un usage courant.</li>
+</ul>
+<p>Le verdict ne tient pas compte du prix : il qualifie le modèle, pas l'affaire. Un bon modèle à un mauvais prix reste une mauvaise affaire.</p></section>
+<section><h2>Ce que nos fiches ne disent pas</h2><ul>
+  <li>Elles ne remplacent pas un <strong>contrôle technique</strong> ni un essai routier.</li>
+  <li>Elles ne garantissent pas l'état d'un véhicule d'occasion précis : kilométrage, entretien et historique pèsent autant que le modèle.</li>
+  <li>Elles ne couvrent pas toutes les motorisations ni toutes les finitions.</li>
+  <li>Les prix mentionnés sont <strong>indicatifs</strong> et varient selon le marché, la région et l'état.</li>
+</ul></section>
+<section><h2>Mises à jour et corrections</h2><p>Les fiches sont révisées lorsqu'une source publie de nouvelles données — statistiques annuelles, campagne de rappel, correction d'un constructeur. Une fiche erronée est corrigée dès que l'erreur est identifiée.</p>
+<p>Si vous constatez une erreur, signalez-la : elle sera vérifiée et corrigée.</p></section>
+<section><h2>Indépendance éditoriale</h2><p>Aucun constructeur, aucun garage et aucun revendeur ne paie pour figurer ici, ni pour obtenir un verdict favorable. Le classement ne se vend pas.</p>
+<p>Le site peut contenir des liens d'affiliation vers des services utiles à l'achat (crédit, assurance). Ces liens ne modifient ni le score, ni le verdict, ni le choix des modèles présentés.</p></section>
+
+<footer>Fiches établies à partir de sources publiques (ADAC, TÜV/DEKRA, What Car?, L’Argus, Auto Plus, rappels officiels). Les prix sont indicatifs.</footer>
+</main>
+</body>
+</html>
