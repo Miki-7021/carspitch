@@ -54,6 +54,22 @@ th { color: var(--muted); font-weight:600; font-size:13px; text-transform:upperc
 footer { color: var(--muted); font-size:13px; border-top:1px solid var(--line); margin-top:32px; padding-top:16px; }
 .filters { display:flex; gap:10px; flex-wrap:wrap; }
 .filters input, .filters select { padding:9px 11px; border:1px solid var(--line); border-radius:10px; font:inherit; background:#fff; }
+form .field { margin: 0 0 16px; display:flex; flex-direction:column; gap:6px; }
+form label { font-size:14px; font-weight:600; }
+form .optional { font-weight:400; color:var(--muted); }
+form input[type="text"], form input[type="email"], form select {
+  padding:11px 13px; border:1px solid var(--line); border-radius:10px; font:inherit; background:#fff; width:100%;
+}
+form .row { display:grid; gap:16px; grid-template-columns:1fr 1fr; }
+@media (max-width:560px) { form .row { grid-template-columns:1fr; } }
+form .hp { position:absolute; left:-9999px; width:1px; height:1px; overflow:hidden; }
+form .consent { display:flex; gap:10px; align-items:flex-start; font-weight:400; font-size:14px; color:var(--muted); margin: 4px 0 14px; }
+form .consent input { margin-top:3px; }
+form .note { font-size:13px; color:var(--muted); margin: 0 0 16px; }
+form button { padding:12px 22px; border:0; border-radius:10px; background:var(--ink); color:#fff; font:inherit; font-weight:700; cursor:pointer; }
+form button:disabled { opacity:.6; cursor:progress; }
+.feedback { min-height:22px; font-size:14px; margin: 12px 0 0; }
+.feedback.ok { color:#047857; } .feedback.err { color:#b91c1c; }
 </style>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Car","name":"Jeep Grand Cherokee","brand":{"@type":"Brand","name":"Jeep"},"model":"Grand Cherokee","vehicleModelDate":"2005 – 2010","description":"Le Jeep Grand Cherokee de 3ème génération (nom de code WK en Amérique du Nord, WH en Europe) marque un tournant majeur pour le modèle. Développé sous l'ère DaimlerChrysler, il abandonne l'essieu rigide à l'avant au profit de roues indépendantes, améliorant considérablement son co","inLanguage":"fr","review":{"@type":"Review","reviewRating":{"@type":"Rating","ratingValue":65,"bestRating":100},"author":{"@type":"Organization","name":"Carspitch"}}}</script>
 </head>
@@ -66,6 +82,7 @@ footer { color: var(--muted); font-size:13px; border-top:1px solid var(--line); 
       <a href="/fr/">Toutes les fiches</a>
       <a href="/fr/methode/">Méthode</a>
       <a href="/fr/a-propos/">À propos</a>
+      <a href="/fr/alerte/" class="cta">Alerte</a>
     </nav>
   </div>
 </header>
