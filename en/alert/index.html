@@ -70,6 +70,9 @@ form button { padding:12px 22px; border:0; border-radius:10px; background:var(--
 form button:disabled { opacity:.6; cursor:progress; }
 .feedback { min-height:22px; font-size:14px; margin: 12px 0 0; }
 .feedback.ok { color:#047857; } .feedback.err { color:#b91c1c; }
+.feedback .confirm { display:inline-block; margin:10px 0 6px; padding:12px 22px; border-radius:10px;
+  background:#229ed9; color:#fff; font-weight:700; text-decoration:none; }
+.feedback .confirm:hover { background:#1b87ba; }
 </style>
 
 </head>
@@ -112,8 +115,8 @@ form button:disabled { opacity:.6; cursor:progress; }
       <select id="country" name="country"><option value="BE">Belgium</option><option value="FR">France</option><option value="NL">Netherlands</option><option value="DE">Germany</option><option value="LU">Luxembourg</option><option value="ES">Spain</option><option value="IT">Italy</option><option value="IE">Ireland</option><option value="autre">Other</option></select>
     </div>
     <div class="field">
-      <label for="contact">Your e-mail (required) <span class="optional">(You will receive a link to publish your request)</span></label>
-      <input id="contact" name="contact" type="email" maxlength="120" autocomplete="email" required>
+      <label for="contact">Your e-mail or Telegram handle <span class="optional">(Optional — to reply to you)</span></label>
+      <input id="contact" name="contact" type="text" maxlength="120" autocomplete="email">
     </div>
 
     <div class="hp" aria-hidden="true">
@@ -123,7 +126,7 @@ form button:disabled { opacity:.6; cursor:progress; }
 
     <label class="consent">
       <input id="consent" type="checkbox" required>
-      <span>I agree to receive a confirmation e-mail and that my request is published anonymously on the Telegram channel. My contact details are not published.</span>
+      <span>I agree that my request is published anonymously, and I confirm my consent by pressing “Confirm on Telegram”.</span>
     </label>
 
     <p class="note">The Telegram channel is public: do not include a phone number, address or plate in the “car wanted” field.</p>
@@ -136,7 +139,7 @@ form button:disabled { opacity:.6; cursor:progress; }
 <script>
 const ENDPOINT = "";
 const CONTACT = 'contact@carspitch.app';
-const MESSAGES = {"success":"Request saved. Open the e-mail we just sent and click the link: your request will then be published on the channel.","error":"Sending failed. Please try again shortly.","fallback":"Last step: send the e-mail that just opened.","invalid":"Please enter at least the brand and model.","emailRequired":"A valid e-mail address is required to confirm your request.","sending":"Sending…"};
+const MESSAGES = {"error":"Sending failed. Please try again shortly.","fallback":"Last step: send the e-mail that just opened.","invalid":"Please enter at least the brand and model.","sending":"Sending…","confirmTitle":"Last step: confirm on Telegram","confirmButton":"Confirm on Telegram","confirmHint":"Open the link and press “Start”: your request is published immediately."};
 const LANG = "en";
 
 const form = document.getElementById('alert-form');
@@ -155,13 +158,11 @@ form.addEventListener('submit', async (event) => {
 
   const emailInput = document.getElementById('contact');
   const email = emailInput.value.trim();
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) {
-    feedback.textContent = MESSAGES.emailRequired;
+  if (!document.getElementById('consent').checked) {
+    feedback.textContent = MESSAGES.invalid;
     feedback.className = 'feedback err';
     return;
   }
-
-  if (!document.getElementById('consent').checked) return;
 
   const data = {
     vehicle,
@@ -195,9 +196,21 @@ form.addEventListener('submit', async (event) => {
       body: JSON.stringify(data),
     });
     if (!response.ok) throw new Error(String(response.status));
-    feedback.textContent = MESSAGES.success;
-    feedback.className = 'feedback ok';
-    form.reset();
+
+    const result = await response.json().catch(() => ({}));
+    if (result && result.confirm_url) {
+      feedback.className = 'feedback ok';
+      feedback.innerHTML =
+        '<strong>' + MESSAGES.confirmTitle + '</strong><br>' +
+        '<a class="confirm" href="' + result.confirm_url + '" target="_blank" rel="noopener">' +
+        MESSAGES.confirmButton + '</a><br>' +
+        '<span class="muted">' + MESSAGES.confirmHint + '</span>';
+      form.reset();
+      return;
+    }
+
+    feedback.textContent = MESSAGES.error;
+    feedback.className = 'feedback err';
   } catch {
     feedback.textContent = MESSAGES.error;
     feedback.className = 'feedback err';

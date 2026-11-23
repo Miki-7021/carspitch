@@ -70,6 +70,9 @@ form button { padding:12px 22px; border:0; border-radius:10px; background:var(--
 form button:disabled { opacity:.6; cursor:progress; }
 .feedback { min-height:22px; font-size:14px; margin: 12px 0 0; }
 .feedback.ok { color:#047857; } .feedback.err { color:#b91c1c; }
+.feedback .confirm { display:inline-block; margin:10px 0 6px; padding:12px 22px; border-radius:10px;
+  background:#229ed9; color:#fff; font-weight:700; text-decoration:none; }
+.feedback .confirm:hover { background:#1b87ba; }
 </style>
 
 </head>
@@ -112,8 +115,8 @@ form button:disabled { opacity:.6; cursor:progress; }
       <select id="country" name="country"><option value="BE">Belgique</option><option value="FR">France</option><option value="NL">Pays-Bas</option><option value="DE">Allemagne</option><option value="LU">Luxembourg</option><option value="ES">Espagne</option><option value="IT">Italie</option><option value="IE">Irlande</option><option value="autre">Autre</option></select>
     </div>
     <div class="field">
-      <label for="contact">Votre e-mail (obligatoire) <span class="optional">(Vous recevrez un lien pour publier votre demande)</span></label>
-      <input id="contact" name="contact" type="email" maxlength="120" autocomplete="email" required>
+      <label for="contact">Votre e-mail ou identifiant Telegram <span class="optional">(Facultatif — pour vous répondre)</span></label>
+      <input id="contact" name="contact" type="text" maxlength="120" autocomplete="email">
     </div>
 
     <div class="hp" aria-hidden="true">
@@ -123,7 +126,7 @@ form button:disabled { opacity:.6; cursor:progress; }
 
     <label class="consent">
       <input id="consent" type="checkbox" required>
-      <span>J'accepte de recevoir un e-mail de confirmation et que ma demande soit publiée de façon anonyme sur le canal Telegram. Mes coordonnées ne sont pas publiées.</span>
+      <span>J'accepte que ma demande soit publiée de façon anonyme et je confirme mon accord en appuyant sur « Confirmer sur Telegram ».</span>
     </label>
 
     <p class="note">Le canal Telegram est public : n'indiquez ni numéro de téléphone, ni adresse, ni plaque dans le champ « véhicule recherché ».</p>
@@ -136,7 +139,7 @@ form button:disabled { opacity:.6; cursor:progress; }
 <script>
 const ENDPOINT = "";
 const CONTACT = 'contact@carspitch.app';
-const MESSAGES = {"success":"Demande enregistrée. Ouvrez l’e-mail que nous venons de vous envoyer et cliquez sur le lien : votre demande sera alors publiée sur le canal.","error":"L’envoi a échoué. Réessayez dans un instant.","fallback":"Dernière étape : envoyez l’e-mail qui vient de s’ouvrir.","invalid":"Veuillez indiquer au moins la marque et le modèle.","emailRequired":"Une adresse e-mail valide est nécessaire pour confirmer votre demande.","sending":"Envoi…"};
+const MESSAGES = {"error":"L’envoi a échoué. Réessayez dans un instant.","fallback":"Dernière étape : envoyez l’e-mail qui vient de s’ouvrir.","invalid":"Veuillez indiquer au moins la marque et le modèle.","sending":"Envoi…","confirmTitle":"Dernière étape : confirmez sur Telegram","confirmButton":"Confirmer sur Telegram","confirmHint":"Ouvrez le lien, appuyez sur « Démarrer » : votre demande est publiée immédiatement."};
 const LANG = "fr";
 
 const form = document.getElementById('alert-form');
@@ -155,13 +158,11 @@ form.addEventListener('submit', async (event) => {
 
   const emailInput = document.getElementById('contact');
   const email = emailInput.value.trim();
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) {
-    feedback.textContent = MESSAGES.emailRequired;
+  if (!document.getElementById('consent').checked) {
+    feedback.textContent = MESSAGES.invalid;
     feedback.className = 'feedback err';
     return;
   }
-
-  if (!document.getElementById('consent').checked) return;
 
   const data = {
     vehicle,
@@ -195,9 +196,21 @@ form.addEventListener('submit', async (event) => {
       body: JSON.stringify(data),
     });
     if (!response.ok) throw new Error(String(response.status));
-    feedback.textContent = MESSAGES.success;
-    feedback.className = 'feedback ok';
-    form.reset();
+
+    const result = await response.json().catch(() => ({}));
+    if (result && result.confirm_url) {
+      feedback.className = 'feedback ok';
+      feedback.innerHTML =
+        '<strong>' + MESSAGES.confirmTitle + '</strong><br>' +
+        '<a class="confirm" href="' + result.confirm_url + '" target="_blank" rel="noopener">' +
+        MESSAGES.confirmButton + '</a><br>' +
+        '<span class="muted">' + MESSAGES.confirmHint + '</span>';
+      form.reset();
+      return;
+    }
+
+    feedback.textContent = MESSAGES.error;
+    feedback.className = 'feedback err';
   } catch {
     feedback.textContent = MESSAGES.error;
     feedback.className = 'feedback err';
