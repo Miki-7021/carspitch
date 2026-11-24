@@ -231,9 +231,11 @@ function pollConfirmation(token) {
   if (!token || !STATUS_URL) return;
 
   let tries = 0;
-  const timer = window.setInterval(async () => {
+
+  const check = async () => {
     tries += 1;
-    if (tries > 40) { window.clearInterval(timer); return; }
+    // 200 tours de 3 s : dix minutes, le temps d'aller confirmer dans Telegram.
+    if (tries > 200) { window.clearInterval(timer); return; }
 
     try {
       const response = await fetch(STATUS_URL + '?token=' + encodeURIComponent(token));
@@ -246,7 +248,15 @@ function pollConfirmation(token) {
     } catch (error) {
       // Réseau instable : on réessaie au prochain tour.
     }
-  }, 3000);
+  };
+
+  const timer = window.setInterval(check, 3000);
+
+  // Au retour sur l'onglet, on vérifie tout de suite : c'est exactement le
+  // moment où l'utilisateur revient de Telegram.
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible') check();
+  });
 }
 
 form.addEventListener('submit', async (event) => {
