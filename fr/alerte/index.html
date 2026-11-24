@@ -96,32 +96,55 @@ form button:disabled { opacity:.6; cursor:progress; }
 
 <section>
   <form id="alert-form" novalidate>
-    <div class="field">
-      <label for="vehicle">Véhicule recherché</label>
-      <input id="vehicle" name="vehicle" type="text" maxlength="120" required placeholder="Marque et modèle, par exemple « Honda Jazz 1.4 »">
+    <div class="row">
+      <div class="field">
+        <label for="brand">Marque</label>
+        <select id="brand">
+          <option value="">Choisir une marque…</option>
+          <option value="Abarth">Abarth</option><option value="Alfa Romeo">Alfa Romeo</option><option value="Alpine">Alpine</option><option value="Audi">Audi</option><option value="BMW">BMW</option><option value="Buick">Buick</option><option value="BYD">BYD</option><option value="Chevrolet">Chevrolet</option><option value="Chrysler">Chrysler</option><option value="Citroën">Citroën</option><option value="CUPRA">CUPRA</option><option value="Dacia">Dacia</option><option value="Dodge">Dodge</option><option value="DS">DS</option><option value="Fiat">Fiat</option><option value="Ford">Ford</option><option value="Genesis">Genesis</option><option value="GMC">GMC</option><option value="Holden">Holden</option><option value="Honda">Honda</option><option value="Hyundai">Hyundai</option><option value="Ineos">Ineos</option><option value="Isuzu">Isuzu</option><option value="Jaguar">Jaguar</option><option value="Jeep">Jeep</option><option value="KGM">KGM</option><option value="Kia">Kia</option><option value="Lancia">Lancia</option><option value="Land Rover">Land Rover</option><option value="LAND ROVER">LAND ROVER</option><option value="Lexus">Lexus</option><option value="Lynk &amp; Co">Lynk &amp; Co</option><option value="Mazda">Mazda</option><option value="Mercedes">Mercedes</option><option value="MG">MG</option><option value="MINI">MINI</option><option value="Mitsubishi">Mitsubishi</option><option value="Nissan">Nissan</option><option value="Opel">Opel</option><option value="Peugeot">Peugeot</option><option value="Polestar">Polestar</option><option value="Porsche">Porsche</option><option value="Ram">Ram</option><option value="Renault">Renault</option><option value="Rivian">Rivian</option><option value="Saab">Saab</option><option value="Seat">Seat</option><option value="Skoda">Skoda</option><option value="Smart">Smart</option><option value="Subaru">Subaru</option><option value="Suzuki">Suzuki</option><option value="SUZUKI">SUZUKI</option><option value="Tesla">Tesla</option><option value="Toyota">Toyota</option><option value="Vauxhall">Vauxhall</option><option value="Volkswagen">Volkswagen</option><option value="Volvo">Volvo</option><option value="__other__">Autre marque…</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="model">Modèle</label>
+        <select id="model" disabled>
+          <option value="">Choisir un modèle…</option>
+        </select>
+      </div>
     </div>
+
+    <div class="field" id="free-vehicle-field" hidden>
+      <label for="free-vehicle">Précisez le véhicule</label>
+      <input id="free-vehicle" type="text" maxlength="120" placeholder="Marque et modèle">
+    </div>
+
     <div class="row">
       <div class="field">
         <label for="budget">Budget maximum</label>
-        <input id="budget" name="budget" type="text" inputmode="numeric" maxlength="12" placeholder="En euros, par exemple 9000">
+        <input id="budget" type="text" inputmode="numeric" maxlength="12" placeholder="En euros, par exemple 9000">
       </div>
       <div class="field">
-        <label for="years">Années acceptées</label>
-        <input id="years" name="years" type="text" maxlength="20" placeholder="Par exemple 2012-2018">
+        <label for="year-from">Année minimum</label>
+        <select id="year-from"><option value="">Peu importe</option><option value="2027">2027</option><option value="2026">2026</option><option value="2025">2025</option><option value="2024">2024</option><option value="2023">2023</option><option value="2022">2022</option><option value="2021">2021</option><option value="2020">2020</option><option value="2019">2019</option><option value="2018">2018</option><option value="2017">2017</option><option value="2016">2016</option><option value="2015">2015</option><option value="2014">2014</option><option value="2013">2013</option><option value="2012">2012</option><option value="2011">2011</option><option value="2010">2010</option><option value="2009">2009</option><option value="2008">2008</option><option value="2007">2007</option><option value="2006">2006</option><option value="2005">2005</option><option value="2004">2004</option><option value="2003">2003</option><option value="2002">2002</option><option value="2001">2001</option><option value="2000">2000</option><option value="1999">1999</option><option value="1998">1998</option><option value="1997">1997</option><option value="1996">1996</option><option value="1995">1995</option><option value="1994">1994</option><option value="1993">1993</option><option value="1992">1992</option><option value="1991">1991</option><option value="1990">1990</option></select>
+      </div>
+      <div class="field">
+        <label for="year-to">Année maximum</label>
+        <select id="year-to"><option value="">Peu importe</option><option value="2027">2027</option><option value="2026">2026</option><option value="2025">2025</option><option value="2024">2024</option><option value="2023">2023</option><option value="2022">2022</option><option value="2021">2021</option><option value="2020">2020</option><option value="2019">2019</option><option value="2018">2018</option><option value="2017">2017</option><option value="2016">2016</option><option value="2015">2015</option><option value="2014">2014</option><option value="2013">2013</option><option value="2012">2012</option><option value="2011">2011</option><option value="2010">2010</option><option value="2009">2009</option><option value="2008">2008</option><option value="2007">2007</option><option value="2006">2006</option><option value="2005">2005</option><option value="2004">2004</option><option value="2003">2003</option><option value="2002">2002</option><option value="2001">2001</option><option value="2000">2000</option><option value="1999">1999</option><option value="1998">1998</option><option value="1997">1997</option><option value="1996">1996</option><option value="1995">1995</option><option value="1994">1994</option><option value="1993">1993</option><option value="1992">1992</option><option value="1991">1991</option><option value="1990">1990</option></select>
       </div>
     </div>
+
     <div class="field">
       <label for="country">Pays</label>
-      <select id="country" name="country"><option value="BE">Belgique</option><option value="FR">France</option><option value="NL">Pays-Bas</option><option value="DE">Allemagne</option><option value="LU">Luxembourg</option><option value="ES">Espagne</option><option value="IT">Italie</option><option value="IE">Irlande</option><option value="autre">Autre</option></select>
+      <select id="country"><option value="BE">Belgique</option><option value="FR">France</option><option value="NL">Pays-Bas</option><option value="DE">Allemagne</option><option value="LU">Luxembourg</option><option value="ES">Espagne</option><option value="IT">Italie</option><option value="IE">Irlande</option><option value="autre">Autre</option></select>
     </div>
+
     <div class="field">
       <label for="contact">Votre e-mail ou identifiant Telegram <span class="optional">(Facultatif — pour vous répondre)</span></label>
-      <input id="contact" name="contact" type="text" maxlength="120" autocomplete="email">
+      <input id="contact" type="text" maxlength="120" autocomplete="email">
     </div>
 
     <div class="hp" aria-hidden="true">
       <label for="website">Website</label>
-      <input id="website" name="website" type="text" tabindex="-1" autocomplete="off">
+      <input id="website" type="text" tabindex="-1" autocomplete="off">
     </div>
 
     <label class="consent">
@@ -139,25 +162,79 @@ form button:disabled { opacity:.6; cursor:progress; }
 <script>
 const ENDPOINT = "https://ncyojcdsgxkocxdmyhdl.supabase.co/functions/v1/alert-request";
 const CONTACT = 'contact@carspitch.app';
-const MESSAGES = {"error":"L’envoi a échoué. Réessayez dans un instant.","fallback":"Dernière étape : envoyez l’e-mail qui vient de s’ouvrir.","invalid":"Veuillez indiquer au moins la marque et le modèle.","sending":"Envoi…","confirmTitle":"Dernière étape : confirmez sur Telegram","confirmButton":"Confirmer sur Telegram","confirmHint":"Ouvrez le lien, appuyez sur « Démarrer » : votre demande est publiée immédiatement."};
+const CATALOG = {"brands":[{"brand":"Abarth","models":["500"]},{"brand":"Alfa Romeo","models":["147","156","159","Giulia","Giulietta","Mito","Stelvio","Tonale"]},{"brand":"Alpine","models":["A110"]},{"brand":"Audi","models":["A1","A2","A3","A4","A5","A6","A7","A8","e-tron","e-tron GT","Q2","Q3","Q4 e-tron","Q5","Q7","Q8","Q8 e-tron","TT"]},{"brand":"BMW","models":["i3","iX","iX3","Série 1","Série 2","Série 3","Série 4","Série 5","Série 7","Série 8","X1","X2","X3","X4","X5","X6","X7","Z4"]},{"brand":"Buick","models":["Encore"]},{"brand":"BYD","models":["Atto 3","Dolphin","Seal"]},{"brand":"Chevrolet","models":["Aveo","Blazer","Bolt EUV","Bolt EV","Captiva","Colorado","Cruze","Equinox","Malibu","Silverado 1500","Suburban","Tahoe","Trailblazer","Traverse","Trax"]},{"brand":"Chrysler","models":["300","Pacifica"]},{"brand":"Citroën","models":["Berlingo","C1","C2","C3","C3 Aircross","C4","C4 Cactus","C5","C5 Aircross","C5 X"]},{"brand":"CUPRA","models":["Ateca","Born","Formentor","Terramar"]},{"brand":"Dacia","models":["Duster","Jogger","Logan","Sandero","Spring"]},{"brand":"Dodge","models":["Challenger","Charger","Durango"]},{"brand":"DS","models":["DS3","DS3 Crossback","DS4","DS5","DS7"]},{"brand":"Fiat","models":["500","500e","500X","Bravo","Panda","Punto","Tipo"]},{"brand":"Ford","models":["Bronco","Bronco Sport","C-Max","EcoSport","Edge","Escape","Explorer","F-150","F150","Fiesta","Focus","Galaxy","Kuga","Maverick","Mondeo","Mustang","Mustang Mach-E","Puma","Ranger","S-Max"]},{"brand":"Genesis","models":["G70","GV60","GV70"]},{"brand":"GMC","models":["Acadia","Canyon","Sierra 1500","Terrain","Yukon"]},{"brand":"Holden","models":["Commodore"]},{"brand":"Honda","models":["Accord","Civic","CR-V","e","Fit","HR-V","Jazz","NSX","Odyssey","Passport","Pilot","Prelude","Ridgeline","S2000","ZR-V"]},{"brand":"Hyundai","models":["BAYON","Elantra","i10","i20","i30","i40","Ioniq","IONIQ 5","IONIQ 6","ix35","Kona","Palisade","Santa Fe","Sonata","Tucson","Venue"]},{"brand":"Ineos","models":["Grenadier"]},{"brand":"Isuzu","models":["D-Max"]},{"brand":"Jaguar","models":["E-PACE","F-PACE","F-TYPE","I-PACE","S-Type","XE","XF"]},{"brand":"Jeep","models":["Avenger","Compass","Grand Cherokee","Renegade","Wrangler"]},{"brand":"KGM","models":["Korando","Musso","Rexton","Tivoli","Torres"]},{"brand":"Kia","models":["Carens","Carnival","Ceed","EV6","EV9","Forte","Niro","Picanto","ProCeed","Rio","Sorento","Soul","Sportage","Stinger","Stonic","Telluride","XCeed"]},{"brand":"Lancia","models":["Ypsilon"]},{"brand":"Land Rover","models":["Defender","Discovery","Discovery Sport","Freelander 2","Range Rover","Range Rover Evoque","Range Rover Sport","Range Rover Velar"]},{"brand":"LAND ROVER","models":["RANGE ROVER EVOQUE"]},{"brand":"Lexus","models":["CT","ES","IS","NX","RX","UX"]},{"brand":"Lynk & Co","models":["01"]},{"brand":"Mazda","models":["2","3","BT-50","CX-3","CX-30","CX-5","CX-50","CX-60","CX-9","Mazda2","Mazda3","Mazda6","MX-30","MX-5"]},{"brand":"Mercedes","models":["A 180","A 220","C 160","CLA","Classe A","Classe B","Classe C","Classe E","Classe G","Classe S","CLS","EQA","EQB","EQC","EQE","EQS","GLA","GLB","GLC","GLE","GLS","SLC","SLK","Vito"]},{"brand":"MG","models":["HS","Marvel R","MG3","MG4","MG5","ZS","ZS EV"]},{"brand":"MINI","models":["Cabrio","Clubman","Countryman","Hatch","Mini","One","Paceman"]},{"brand":"Mitsubishi","models":["ASX","Eclipse Cross","Outlander","Triton"]},{"brand":"Nissan","models":["Altima","Ariya","Frontier","Juke","Kicks","Leaf","Micra","Murano","Navara","Pathfinder","Patrol","Qashqai","Rogue","Sentra","X-Trail"]},{"brand":"Opel","models":["Astra","Corsa","Crossland","Grandland","Insignia","Meriva","Mokka","Vectra","Zafira"]},{"brand":"Peugeot","models":["106","107","108","2008","206","206+","207","208","3008","307","308","407","408","5008","504","508","Partner","Rifter"]},{"brand":"Polestar","models":["Polestar 2","Polestar 4"]},{"brand":"Porsche","models":["718 Boxster","718 Cayman","911","Boxster","Cayenne","Cayman","Macan","Panamera","Taycan"]},{"brand":"Ram","models":["1500"]},{"brand":"Renault","models":["Alaskan","Arkana","Austral","Captur","Clio","Espace","Fluence","Grand Modus","Kadjar","Kangoo","Koleos","Laguna","Megane","Megane E-Tech","Modus","R5 E-Tech","Safrane","Scenic","Talisman","Twingo","Zoe"]},{"brand":"Rivian","models":["R1S","R1T"]},{"brand":"Saab","models":["9-3","9-5"]},{"brand":"Seat","models":["Alhambra","Arona","Ateca","Ibiza","Leon","Tarraco"]},{"brand":"Skoda","models":["Citigo","e-Citigo","Enyaq","Fabia","Kamiq","Karoq","Kodiaq","Octavia","Scala","Superb","Yeti"]},{"brand":"Smart","models":["#1","#3","Forfour","Fortwo"]},{"brand":"Subaru","models":["Ascent","Crosstrek","Forester","Impreza","Legacy","Outback","WRX","XV"]},{"brand":"Suzuki","models":["Alto","Baleno","Grand Vitara","Ignis","Jimny","S-Cross","Splash","Swift","SX4 S-Cross","Vitara"]},{"brand":"SUZUKI","models":["Swift"]},{"brand":"Tesla","models":["Model 3","Model S","Model X","Model Y"]},{"brand":"Toyota","models":["4Runner","Auris","Aygo","Aygo X","bZ4X","C-HR","Camry","Celica","Corolla","Corolla Verso","GR Yaris","GR86","GT86","HiAce","Highlander","Hilux","Land Cruiser","Land Cruiser Prado","Prius","RAV4","Sequoia","Sienna","Supra","Tacoma","Tundra","Venza","Yaris","Yaris Cross","Yaris Verso"]},{"brand":"Vauxhall","models":["Astra","Corsa","Crossland","Grandland","Insignia","Mokka"]},{"brand":"Volkswagen","models":["Arteon","Caddy","CC","Golf","Golf GTI","ID.2","ID.3","ID.4","ID.5","ID.7","Passat","Polo","Scirocco","Sharan","T-Cross","T-Roc","Taigo","Tiguan","Touareg","Touran","Up"]},{"brand":"Volvo","models":["C40 Recharge","EX30","S40","S60","S70","S80","V40","V60","V90","XC40","XC60","XC90"]}],"minYear":1990,"maxYear":2027};
+const MESSAGES = {"error":"L’envoi a échoué. Réessayez dans un instant.","fallback":"Dernière étape : envoyez l’e-mail qui vient de s’ouvrir.","invalid":"Veuillez indiquer au moins la marque et le modèle.","sending":"Envoi…","confirmTitle":"Dernière étape : confirmez sur Telegram","confirmButton":"Confirmer sur Telegram","confirmHint":"Ouvrez le lien, appuyez sur « Démarrer » : votre demande est publiée immédiatement.","modelRequired":"Choisissez un modèle, ou une marque et précisez le véhicule.","modelPlaceholder":"Choisir un modèle…"};
 const LANG = "fr";
 
 const form = document.getElementById('alert-form');
 const feedback = document.getElementById('feedback');
 const submit = document.getElementById('submit');
+const brandSelect = document.getElementById('brand');
+const modelSelect = document.getElementById('model');
+const freeField = document.getElementById('free-vehicle-field');
+const freeInput = document.getElementById('free-vehicle');
+const yearFrom = document.getElementById('year-from');
+const yearTo = document.getElementById('year-to');
+
+// Le modèle dépend de la marque : la liste est reconstruite à chaque choix.
+brandSelect.addEventListener('change', () => {
+  const brand = brandSelect.value;
+  modelSelect.innerHTML = '';
+
+  const placeholder = document.createElement('option');
+  placeholder.value = '';
+  placeholder.textContent = MESSAGES.modelPlaceholder;
+  modelSelect.appendChild(placeholder);
+
+  if (!brand) {
+    modelSelect.disabled = true;
+    freeField.hidden = true;
+    return;
+  }
+
+  if (brand === '__other__') {
+    modelSelect.disabled = true;
+    freeField.hidden = false;
+    freeInput.focus();
+    return;
+  }
+
+  const entry = CATALOG.brands.find((item) => item.brand === brand);
+  for (const model of entry ? entry.models : []) {
+    const option = document.createElement('option');
+    option.value = model;
+    option.textContent = model;
+    modelSelect.appendChild(option);
+  }
+
+  modelSelect.disabled = false;
+  freeField.hidden = true;
+});
 
 form.addEventListener('submit', async (event) => {
   event.preventDefault();
 
-  const vehicle = document.getElementById('vehicle').value.trim();
+  const brand = brandSelect.value;
+  const model = modelSelect.value;
+
+  let vehicle = '';
+  if (brand === '__other__') vehicle = freeInput.value.trim();
+  else if (brand && model && model !== '__any__') vehicle = (brand + ' ' + model).trim();
+  else vehicle = brand;
+
   if (vehicle.length < 3) {
-    feedback.textContent = MESSAGES.invalid;
+    feedback.textContent = MESSAGES.modelRequired;
     feedback.className = 'feedback err';
     return;
   }
 
-  const emailInput = document.getElementById('contact');
-  const email = emailInput.value.trim();
+  const from = yearFrom.value;
+  const to = yearTo.value;
+  let yearsText = '';
+  if (from && to) yearsText = Number(from) <= Number(to) ? from + '-' + to : to + '-' + from;
+  else if (from) yearsText = 'depuis ' + from;
+  else if (to) yearsText = "jusqu'à " + to;
+
   if (!document.getElementById('consent').checked) {
     feedback.textContent = MESSAGES.invalid;
     feedback.className = 'feedback err';
@@ -166,8 +243,10 @@ form.addEventListener('submit', async (event) => {
 
   const data = {
     vehicle,
+    brand,
+    model,
     budget: document.getElementById('budget').value.trim(),
-    years: document.getElementById('years').value.trim(),
+    years: yearsText,
     country: document.getElementById('country').value,
     contact: document.getElementById('contact').value.trim(),
     website: document.getElementById('website').value,
@@ -176,10 +255,10 @@ form.addEventListener('submit', async (event) => {
 
   if (!ENDPOINT) {
     const subject = encodeURIComponent('Demande d’alerte — ' + vehicle);
-    const body = encodeURIComponent(
+    const mailBody = encodeURIComponent(
       'Véhicule : ' + data.vehicle + '\nBudget : ' + data.budget + '\nAnnées : ' + data.years +
       '\nPays : ' + data.country + '\nContact : ' + data.contact + '\n');
-    window.location.href = 'mailto:' + CONTACT + '?subject=' + subject + '&body=' + body;
+    window.location.href = 'mailto:' + CONTACT + '?subject=' + subject + '&body=' + mailBody;
     feedback.textContent = MESSAGES.fallback;
     feedback.className = 'feedback ok';
     return;
@@ -206,12 +285,14 @@ form.addEventListener('submit', async (event) => {
         MESSAGES.confirmButton + '</a><br>' +
         '<span class="muted">' + MESSAGES.confirmHint + '</span>';
       form.reset();
+      modelSelect.disabled = true;
+      freeField.hidden = true;
       return;
     }
 
     feedback.textContent = MESSAGES.error;
     feedback.className = 'feedback err';
-  } catch {
+  } catch (error) {
     feedback.textContent = MESSAGES.error;
     feedback.className = 'feedback err';
   } finally {
