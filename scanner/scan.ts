@@ -31,7 +31,8 @@ const MATCH_SECRET = process.env['MATCH_SECRET'] ?? '';
 
 const SITE = 'https://carspitch.app';
 const MIN_DISCOUNT = 0.18;      // 18 % sous la cote
-const MAX_ALERTS = 3;           // par passage
+const MAX_ALERTS = 2;           // par passage, tous modèles confondus
+const MAX_PER_MODEL = 1;        // pour qu'un modèle ne prenne pas toute la place
 const MIN_SAMPLES = 6;          // annonces nécessaires pour une cote
 const SEEN_FILE = new URL('./seen.json', import.meta.url);
 
@@ -187,17 +188,26 @@ async function notifyMatcher(ad: RawAd, target: Target): Promise<void> {
 
 // ─── Collecte ───────────────────────────────────────────────────────────────
 
+/** Deux pages : une seule ne fournit que 20 à 40 annonces, trop peu pour coter. */
 async function collectAutoscout(target: Target): Promise<RawAd[]> {
-  const url = buildSearchUrl({
-    brand: target.brand,
-    model: target.model,
-    countries: COUNTRIES,
-    yearFrom: target.yearFrom,
-    yearTo: target.yearTo,
-    maxKm: 250000,
-  });
-  const page = await fetchSearchPage(url);
-  return parseSearchPage(page.html, { baseUrl: page.finalUrl }).ads;
+  const ads: RawAd[] = [];
+
+  for (const page of [1, 2]) {
+    const url = buildSearchUrl({
+      brand: target.brand,
+      model: target.model,
+      countries: COUNTRIES,
+      yearFrom: target.yearFrom,
+      yearTo: target.yearTo,
+      maxKm: 250000,
+      page,
+    });
+    const fetched = await fetchSearchPage(url);
+    ads.push(...parseSearchPage(fetched.html, { baseUrl: fetched.finalUrl }).ads);
+    await new Promise((resolve) => setTimeout(resolve, 800));
+  }
+
+  return ads;
 }
 
 async function collectTwoEmemain(target: Target): Promise<RawAd[]> {
@@ -242,8 +252,8 @@ function referenceFor(ad: RawAd, ads: readonly RawAd[]): Reference | null {
     (other) => other.mileage && Math.abs(other.mileage - ad.mileage!) <= 60_000,
   );
 
-  const cohort = closeKm.length >= 5 ? closeKm : sameYear;
-  const needed = closeKm.length >= 5 ? 5 : 8;
+  const cohort = closeKm.length >= 4 ? closeKm : sameYear;
+  const needed = closeKm.length >= 4 ? 4 : 6;
   if (cohort.length < needed) return null;
 
   const prices = cohort.map((other) => other.price).sort((a, b) => a - b);
@@ -307,7 +317,6 @@ async function main(): Promise<void> {
     let compared = 0;
 
     for (const ad of ads) {
-      if (alerts >= MAX_ALERTS) break;
       if (ad.price < 1500 || ad.price > target.maxPrice) continue;
       if (seen[`${ad.platform}:${ad.externalId}`]) continue;
 
@@ -319,6 +328,9 @@ async function main(): Promise<void> {
       // Au-delà de 55 %, c'est presque toujours une annonce incomplète,
       // un véhicule accidenté ou une erreur de saisie : on ne l'annonce pas.
       if (discount < MIN_DISCOUNT || discount > 0.55) continue;
+
+      // Plafond d'envoi : au-delà, on continue de comparer mais on n'envoie plus.
+      if (alerts >= MAX_ALERTS || found >= MAX_PER_MODEL) continue;
 
       seen[`${ad.platform}:${ad.externalId}`] = startedAt.toISOString();
       const slug = slugFor(target.brand, target.model, ad.year, ad.fuel);
