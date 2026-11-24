@@ -284,8 +284,8 @@ async function main(): Promise<void> {
   let scanned = 0;
 
   for (const target of TARGETS) {
-    if (alerts >= MAX_ALERTS) break;
-
+    // On continue à collecter même quand le plafond d'envoi est atteint :
+    // la limite porte sur les alertes, pas sur la veille.
     let ads: RawAd[] = [];
     try {
       ads = await collectAutoscout(target);
