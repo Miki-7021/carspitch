@@ -1,4 +1,4 @@
-name: scan-pepites
+﻿name: scan-pepites
 
 # Toutes les deux heures, décalé de 17 minutes : les crons planifiés à l'heure
 # pile sont souvent retardés ou ignorés par GitHub.
@@ -41,6 +41,8 @@ jobs:
           PEPITE_URL: ${{ secrets.PEPITE_URL }}
           PEPITE_SECRET: ${{ secrets.PEPITE_SECRET }}
           ALERT_MATCH_URL: ${{ secrets.ALERT_MATCH_URL }}
+          WATCH_LIST_URL: ${{ secrets.WATCH_LIST_URL }}
+          WATCH_SECRET: ${{ secrets.WATCH_SECRET }}
           MATCH_SECRET: ${{ secrets.MATCH_SECRET }}
         run: node scanner/scan.ts
 

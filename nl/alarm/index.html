@@ -285,6 +285,8 @@ form.addEventListener('submit', async (event) => {
     model,
     budget: document.getElementById('budget').value.trim(),
     years: yearsText,
+    year_from: from ? Number(from) : null,
+    year_to: to ? Number(to) : null,
     max_km: document.getElementById('max-km').value,
     country: document.getElementById('country').value,
     contact: document.getElementById('contact').value.trim(),

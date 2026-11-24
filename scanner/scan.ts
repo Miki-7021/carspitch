@@ -25,6 +25,8 @@ import type { MarketCountry, RawAd } from './lib/types.ts';
 
 const DRY_RUN = process.env['DRY_RUN'] === '1';
 const ALERT_MATCH_URL = process.env['ALERT_MATCH_URL'] ?? '';
+const WATCH_LIST_URL = process.env['WATCH_LIST_URL'] ?? '';
+const WATCH_SECRET = process.env['WATCH_SECRET'] ?? '';
 const PEPITE_URL = process.env['PEPITE_URL'] ?? '';
 const PEPITE_SECRET = process.env['PEPITE_SECRET'] ?? '';
 const MATCH_SECRET = process.env['MATCH_SECRET'] ?? '';
@@ -45,7 +47,7 @@ interface Target {
 }
 
 /** Modèles populaires en occasion : volume d'annonces suffisant pour coter. */
-const TARGETS: Target[] = [
+const DEFAULT_TARGETS: Target[] = [
   { brand: 'Toyota', model: 'Yaris', yearFrom: 2010, yearTo: 2019, maxPrice: 11000 },
   { brand: 'Honda', model: 'Jazz', yearFrom: 2009, yearTo: 2018, maxPrice: 10000 },
   { brand: 'Renault', model: 'Clio', yearFrom: 2012, yearTo: 2019, maxPrice: 10000 },
@@ -55,6 +57,59 @@ const TARGETS: Target[] = [
   { brand: 'Mazda', model: 'Mazda3', yearFrom: 2010, yearTo: 2018, maxPrice: 12000 },
   { brand: 'Suzuki', model: 'Swift', yearFrom: 2011, yearTo: 2019, maxPrice: 9000 },
 ];
+
+const MAX_TARGETS = 12;
+
+/**
+ * Modèles demandés par les personnes ayant confirmé une alerte.
+ * Ils passent avant la liste par défaut : on cherche d'abord ce que les gens
+ * attendent, pas ce qui était câblé dans le code.
+ */
+async function fetchWatchList(): Promise<Target[]> {
+  if (!WATCH_LIST_URL) return [];
+
+  try {
+    const response = await fetch(WATCH_LIST_URL, {
+      headers: WATCH_SECRET ? { 'x-watch-secret': WATCH_SECRET } : {},
+    });
+    if (!response.ok) {
+      console.warn('watch-list', response.status);
+      return [];
+    }
+
+    const data = await response.json();
+    const items = Array.isArray(data?.items) ? data.items : [];
+
+    return items
+      .filter((item: Record<string, unknown>) => item.brand && item.model)
+      .map((item: Record<string, unknown>) => ({
+        brand: String(item.brand),
+        model: String(item.model),
+        yearFrom: item.year_from ? Number(item.year_from) : 2008,
+        yearTo: item.year_to ? Number(item.year_to) : new Date().getFullYear(),
+        maxPrice: item.max_price ? Number(item.max_price) : 25000,
+      }));
+  } catch (error) {
+    console.warn('watch-list injoignable :', (error as Error).message);
+    return [];
+  }
+}
+
+/** Fusionne les demandes et la liste par défaut, sans doublon. */
+function mergeTargets(requested: readonly Target[]): Target[] {
+  const seen = new Set<string>();
+  const merged: Target[] = [];
+
+  for (const target of [...requested, ...DEFAULT_TARGETS]) {
+    const key = `${target.brand}|${target.model}`.toLowerCase();
+    if (seen.has(key)) continue;
+    seen.add(key);
+    merged.push(target);
+    if (merged.length >= MAX_TARGETS) break;
+  }
+
+  return merged;
+}
 
 const COUNTRIES: MarketCountry[] = ['BE', 'FR', 'NL', 'DE'];
 
@@ -290,11 +345,12 @@ function buildMessage(ad: RawAd, target: Target, expected: number, discount: num
 
 async function main(): Promise<void> {
   const seen = loadSeen();
+  const targets = mergeTargets(await fetchWatchList());
   const startedAt = new Date();
   let alerts = 0;
   let scanned = 0;
 
-  for (const target of TARGETS) {
+  for (const target of targets) {
     // On continue à collecter même quand le plafond d'envoi est atteint :
     // la limite porte sur les alertes, pas sur la veille.
     let ads: RawAd[] = [];
