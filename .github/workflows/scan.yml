@@ -1,0 +1,49 @@
+name: scan-pepites
+
+# Toutes les deux heures, décalé de 17 minutes : les crons planifiés à l'heure
+# pile sont souvent retardés ou ignorés par GitHub.
+on:
+  schedule:
+    - cron: '17 */2 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: scan-pepites
+  cancel-in-progress: false
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      # Mémoire des annonces déjà vues : un cache reconstruit à chaque passage.
+      - name: Restaurer la mémoire des annonces vues
+        uses: actions/cache/restore@v4
+        with:
+          path: scanner/seen.json
+          key: seen-${{ github.run_id }}
+          restore-keys: seen-
+
+      - name: Scanner les annonces
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          ALERT_MATCH_URL: ${{ secrets.ALERT_MATCH_URL }}
+        run: node scanner/scan.ts
+
+      - name: Enregistrer la mémoire des annonces vues
+        if: always()
+        uses: actions/cache/save@v4
+        with:
+          path: scanner/seen.json
+          key: seen-${{ github.run_id }}
