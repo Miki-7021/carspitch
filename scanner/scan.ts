@@ -24,9 +24,9 @@ import type { MarketCountry, RawAd } from './lib/types.ts';
 // ─── Réglages ───────────────────────────────────────────────────────────────
 
 const DRY_RUN = process.env['DRY_RUN'] === '1';
-const BOT_TOKEN = process.env['TELEGRAM_BOT_TOKEN'] ?? '';
-const CHAT_ID = process.env['TELEGRAM_CHAT_ID'] ?? '';
 const ALERT_MATCH_URL = process.env['ALERT_MATCH_URL'] ?? '';
+const PEPITE_URL = process.env['PEPITE_URL'] ?? '';
+const PEPITE_SECRET = process.env['PEPITE_SECRET'] ?? '';
 const MATCH_SECRET = process.env['MATCH_SECRET'] ?? '';
 
 const SITE = 'https://carspitch.app';
@@ -121,35 +121,42 @@ function saveSeen(seen: Seen): void {
 
 // ─── Telegram ───────────────────────────────────────────────────────────────
 
+/**
+ * Envoi via la fonction Supabase « pepite ».
+ *
+ * GitHub Actions ne peut pas joindre api.telegram.org (connexion expirée) :
+ * le runner appelle Supabase, qui relaie vers Telegram. Le jeton du bot ne
+ * circule donc jamais dans le workflow.
+ */
 async function sendTelegram(text: string): Promise<boolean> {
   if (DRY_RUN) {
     console.log('\n--- message (simulation) ---\n' + text + '\n');
     return true;
   }
-  if (!BOT_TOKEN || !CHAT_ID) {
-    console.warn('TELEGRAM_BOT_TOKEN / TELEGRAM_CHAT_ID absents');
+  if (!PEPITE_URL) {
+    console.warn('PEPITE_URL absent : message non envoyé');
     return false;
   }
 
-  const response = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
-    method: 'POST',
-    headers: { 'content-type': 'application/json' },
-    body: JSON.stringify({ chat_id: CHAT_ID, text, parse_mode: 'HTML', disable_web_page_preview: false }),
-  });
+  try {
+    const response = await fetch(PEPITE_URL, {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json',
+        ...(PEPITE_SECRET ? { 'x-pepite-secret': PEPITE_SECRET } : {}),
+      },
+      body: JSON.stringify({ text }),
+    });
 
-  if (response.status === 429) {
-    const body = await response.json().catch(() => null);
-    const wait = Number(body?.parameters?.retry_after ?? 5);
-    console.warn(`limite Telegram : nouvelle tentative dans ${wait} s`);
-    await new Promise((resolve) => setTimeout(resolve, Math.min(wait, 30) * 1000));
-    return sendTelegram(text);
-  }
-
-  if (!response.ok) {
-    console.error('telegram', response.status, await response.text());
+    if (!response.ok) {
+      console.error('pepite', response.status, await response.text());
+      return false;
+    }
+    return true;
+  } catch (error) {
+    console.error('pepite', (error as Error).message);
     return false;
   }
-  return true;
 }
 
 async function notifyMatcher(ad: RawAd, target: Target): Promise<void> {
@@ -335,4 +342,10 @@ async function main(): Promise<void> {
   console.log(`\nterminé : ${scanned} annonces lues, ${alerts} alerte(s)${DRY_RUN ? ' (simulation)' : ''}`);
 }
 
-await main();
+try {
+  await main();
+} catch (error) {
+  // Un échec réseau ne doit pas faire échouer le workflow entier.
+  console.error('scan interrompu :', error);
+  process.exitCode = 0;
+}

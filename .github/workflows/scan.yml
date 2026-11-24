@@ -34,11 +34,14 @@ jobs:
           key: seen-${{ github.run_id }}
           restore-keys: seen-
 
+      # Le runner ne joint pas api.telegram.org : les envois passent par
+      # Supabase (fonction « pepite »), qui relaie vers Telegram.
       - name: Scanner les annonces
         env:
-          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          PEPITE_URL: ${{ secrets.PEPITE_URL }}
+          PEPITE_SECRET: ${{ secrets.PEPITE_SECRET }}
           ALERT_MATCH_URL: ${{ secrets.ALERT_MATCH_URL }}
+          MATCH_SECRET: ${{ secrets.MATCH_SECRET }}
         run: node scanner/scan.ts
 
       - name: Enregistrer la mémoire des annonces vues
