@@ -175,6 +175,7 @@ async function notifyMatcher(ad: RawAd, target: Target): Promise<void> {
         model: target.model,
         price: ad.price,
         year: ad.year,
+        mileage: ad.mileage,
         country: ad.country,
         url: ad.url,
         source: ad.platform,

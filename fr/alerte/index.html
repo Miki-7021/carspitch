@@ -133,6 +133,14 @@ form button:disabled { opacity:.6; cursor:progress; }
     </div>
 
     <div class="field">
+      <label for="max-km">Kilométrage maximum</label>
+      <select id="max-km">
+        <option value="">Peu importe</option>
+        <option value="50000">50 000 km</option><option value="100000">100 000 km</option><option value="150000">150 000 km</option><option value="200000">200 000 km</option><option value="250000">250 000 km</option><option value="300000">300 000 km</option>
+      </select>
+    </div>
+
+    <div class="field">
       <label for="country">Pays</label>
       <select id="country"><option value="BE">Belgique</option><option value="FR">France</option><option value="NL">Pays-Bas</option><option value="DE">Allemagne</option><option value="LU">Luxembourg</option><option value="ES">Espagne</option><option value="IT">Italie</option><option value="IE">Irlande</option><option value="autre">Autre</option></select>
     </div>
@@ -247,6 +255,7 @@ form.addEventListener('submit', async (event) => {
     model,
     budget: document.getElementById('budget').value.trim(),
     years: yearsText,
+    max_km: document.getElementById('max-km').value,
     country: document.getElementById('country').value,
     contact: document.getElementById('contact').value.trim(),
     website: document.getElementById('website').value,
