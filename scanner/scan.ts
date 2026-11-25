@@ -44,6 +44,8 @@ interface Target {
   yearFrom: number;
   yearTo: number;
   maxPrice: number;
+  /** Pays de la demande. Absent = tous les marchés. */
+  country?: MarketCountry;
 }
 
 /** Modèles populaires en occasion : volume d'annonces suffisant pour coter. */
@@ -88,6 +90,9 @@ async function fetchWatchList(): Promise<Target[]> {
         yearFrom: item.year_from ? Number(item.year_from) : 2008,
         yearTo: item.year_to ? Number(item.year_to) : new Date().getFullYear(),
         maxPrice: item.max_price ? Number(item.max_price) : 25000,
+        country: COUNTRIES.includes(String(item.country) as MarketCountry)
+          ? (String(item.country) as MarketCountry)
+          : undefined,
       }));
   } catch (error) {
     console.warn('watch-list injoignable :', (error as Error).message);
@@ -101,7 +106,7 @@ function mergeTargets(requested: readonly Target[]): Target[] {
   const merged: Target[] = [];
 
   for (const target of [...requested, ...DEFAULT_TARGETS]) {
-    const key = `${target.brand}|${target.model}`.toLowerCase();
+    const key = `${target.brand}|${target.model}|${target.country ?? 'eu'}`.toLowerCase();
     if (seen.has(key)) continue;
     seen.add(key);
     merged.push(target);
@@ -252,7 +257,7 @@ async function collectAutoscout(target: Target): Promise<RawAd[]> {
     const url = buildSearchUrl({
       brand: target.brand,
       model: target.model,
-      countries: COUNTRIES,
+      countries: target.country ? [target.country] : COUNTRIES,
       yearFrom: target.yearFrom,
       yearTo: target.yearTo,
       maxKm: 250000,
