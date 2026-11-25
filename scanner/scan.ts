@@ -105,12 +105,24 @@ function mergeTargets(requested: readonly Target[]): Target[] {
   const seen = new Set<string>();
   const merged: Target[] = [];
 
-  for (const target of [...requested, ...DEFAULT_TARGETS]) {
+  for (const target of requested) {
     const key = `${target.brand}|${target.model}|${target.country ?? 'eu'}`.toLowerCase();
     if (seen.has(key)) continue;
     seen.add(key);
     merged.push(target);
     if (merged.length >= MAX_TARGETS) break;
+  }
+
+  // Un modèle déjà demandé ne doit pas être rescanné via la liste par défaut,
+  // même avec un autre pays : la demande couvre déjà le cas.
+  const requestedModels = new Set(
+    requested.map((target) => `${target.brand}|${target.model}`.toLowerCase()),
+  );
+
+  for (const target of DEFAULT_TARGETS) {
+    if (merged.length >= MAX_TARGETS) break;
+    if (requestedModels.has(`${target.brand}|${target.model}`.toLowerCase())) continue;
+    merged.push(target);
   }
 
   return merged;
