@@ -76,6 +76,9 @@ form button.sent:disabled { opacity:1; cursor:default; }
   background:#229ed9; color:#fff; font-weight:700; text-decoration:none; }
 .feedback .confirm:hover { background:#1b87ba; }
 .feedback .confirm.waiting { background:#94a3b8; pointer-events:none; }
+.cta-alert { display:inline-block; margin: 4px 0 22px; padding: 12px 22px; border-radius: 10px;
+  background:#0f172a; color:#fff; font-weight:700; text-decoration:none; font-size:15px; }
+.cta-alert:hover { background:#1e293b; }
 </style>
 
 </head>
@@ -258,6 +261,33 @@ function pollConfirmation(token) {
     if (document.visibilityState === 'visible') check();
   });
 }
+
+// Préremplissage depuis la fiche : /alerte/?brand=Honda&model=Jazz&from=2008&to=2015
+const params = new URLSearchParams(window.location.search);
+const preBrand = params.get('brand');
+const preModel = params.get('model');
+const preFrom = params.get('from');
+const preTo = params.get('to');
+
+if (preBrand) {
+  const brandOption = Array.from(brandSelect.options).find(
+    (option) => option.value.toLowerCase() === preBrand.toLowerCase(),
+  );
+  if (brandOption) {
+    brandSelect.value = brandOption.value;
+    brandSelect.dispatchEvent(new Event('change'));
+
+    if (preModel) {
+      const modelOption = Array.from(modelSelect.options).find(
+        (option) => option.value.toLowerCase() === preModel.toLowerCase(),
+      );
+      if (modelOption) modelSelect.value = modelOption.value;
+    }
+  }
+}
+
+if (preFrom) yearFrom.value = preFrom;
+if (preTo) yearTo.value = preTo;
 
 form.addEventListener('submit', async (event) => {
   event.preventDefault();
