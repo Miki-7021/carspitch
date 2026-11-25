@@ -151,10 +151,6 @@ form button.sent:disabled { opacity:1; cursor:default; }
       <select id="country"><option value="BE">Belgien</option><option value="FR">Frankreich</option><option value="NL">Niederlande</option><option value="DE">Deutschland</option><option value="LU">Luxemburg</option><option value="ES">Spanien</option><option value="IT">Italien</option><option value="IE">Irland</option><option value="autre">Andere</option></select>
     </div>
 
-    <div class="field">
-      <label for="contact">Ihre E-Mail oder Ihr Telegram-Name <span class="optional">(Optional — für unsere Antwort)</span></label>
-      <input id="contact" type="text" maxlength="120" autocomplete="email">
-    </div>
 
     <div class="hp" aria-hidden="true">
       <label for="website">Website</label>
@@ -329,7 +325,7 @@ form.addEventListener('submit', async (event) => {
     year_to: to ? Number(to) : null,
     max_km: document.getElementById('max-km').value,
     country: document.getElementById('country').value,
-    contact: document.getElementById('contact').value.trim(),
+    contact: '',
     website: document.getElementById('website').value,
     lang: LANG,
   };
