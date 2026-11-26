@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Todas las marcas — Carspitch</title>
+<meta name="description" content="57 marcas de automóviles, con el número de modelos documentados y su fiabilidad media.">
+<link rel="canonical" href="https://carspitch.app/es/marcas/">
+<link rel="alternate" hreflang="fr" href="https://carspitch.app/fr/marques/">
+<link rel="alternate" hreflang="en" href="https://carspitch.app/en/brands/">
+<link rel="alternate" hreflang="de" href="https://carspitch.app/de/marken/">
+<link rel="alternate" hreflang="nl" href="https://carspitch.app/nl/merken/">
+<link rel="alternate" hreflang="es" href="https://carspitch.app/es/marcas/">
+<link rel="alternate" hreflang="it" href="https://carspitch.app/it/marche/">
+<link rel="alternate" hreflang="x-default" href="https://carspitch.app/fr/marques/">
+<meta property="og:title" content="Todas las marcas — Carspitch">
+<meta property="og:description" content="57 marcas de automóviles, con el número de modelos documentados y su fiabilidad media.">
+<meta property="og:type" content="article">
+<style>
+:root { --ink:#0f172a; --muted:#64748b; --line:#e2e8f0; --bg:#f8fafc; --accent:#0ea5e9; }
+* { box-sizing: border-box; }
+body { margin:0; font:16px/1.6 system-ui,-apple-system,"Segoe UI",sans-serif; color:var(--ink); background:var(--bg); }
+a { color:var(--accent); }
+.wrap { max-width: 860px; margin: 0 auto; padding: 24px 18px 64px; }
+header.site { border-bottom:1px solid var(--line); background:#fff; }
+header.site .wrap { display:flex; justify-content:space-between; align-items:center; gap:14px; padding:14px 18px; flex-wrap:wrap; }
+header.site strong { font-size:18px; letter-spacing:-.01em; }
+header.site nav a { color:var(--muted); text-decoration:none; font-size:14px; }
+header.site nav.pages { display:flex; gap:14px; flex-wrap:wrap; }
+header.site nav.pages a:hover { color:var(--accent); }
+.langs { display:flex; gap:6px; flex-wrap:wrap; }
+.langs a { font-size:12px; font-weight:700; letter-spacing:.04em; text-decoration:none; color:var(--muted);
+           border:1px solid var(--line); border-radius:8px; padding:4px 8px; background:#fff; }
+.langs a[aria-current="true"] { color:#fff; background:var(--ink); border-color:var(--ink); }
+.langs a:hover { border-color:var(--accent); color:var(--accent); }
+h1 { font-size: 30px; line-height:1.25; margin: 28px 0 6px; letter-spacing:-.02em; }
+.sub { color: var(--muted); margin: 0 0 22px; }
+.badges { display:flex; flex-wrap:wrap; gap:8px; margin: 0 0 24px; }
+.badge { display:inline-flex; align-items:center; gap:6px; padding:6px 12px; border-radius:999px;
+         font-size:13px; font-weight:600; background:#fff; border:1px solid var(--line); }
+.badge.buy { color:#047857; border-color:#a7f3d0; background:#ecfdf5; }
+.badge.avoid { color:#b91c1c; border-color:#fecaca; background:#fef2f2; }
+.badge.negociate { color:#b45309; border-color:#fde68a; background:#fffbeb; }
+section { background:#fff; border:1px solid var(--line); border-radius:14px; padding: 20px 22px; margin: 0 0 18px; }
+section h2 { margin: 0 0 12px; font-size: 19px; letter-spacing:-.01em; }
+section h2 .count { color:var(--muted); font-weight:600; font-size:14px; }
+h3.cat { margin:16px 0 6px; font-size:14px; color:var(--muted); text-transform:uppercase; letter-spacing:.05em; }
+ul { margin: 0; padding-left: 20px; } li { margin: 4px 0; }
+p { margin: 0 0 12px; } p:last-child { margin-bottom: 0; }
+.muted { color: var(--muted); }
+table { width:100%; border-collapse: collapse; margin: 10px 0; font-size:14px; }
+th, td { text-align:left; padding:8px 10px; border-bottom:1px solid var(--line); vertical-align: top; }
+th { color: var(--muted); font-weight:600; font-size:13px; text-transform:uppercase; letter-spacing:.04em; }
+footer { color: var(--muted); font-size:13px; border-top:1px solid var(--line); margin-top:32px; padding-top:16px; }
+.filters { display:flex; gap:10px; flex-wrap:wrap; }
+.filters input, .filters select { padding:9px 11px; border:1px solid var(--line); border-radius:10px; font:inherit; background:#fff; }
+form .field { margin: 0 0 16px; display:flex; flex-direction:column; gap:6px; }
+form label { font-size:14px; font-weight:600; }
+form .optional { font-weight:400; color:var(--muted); }
+form input[type="text"], form input[type="email"], form select {
+  padding:11px 13px; border:1px solid var(--line); border-radius:10px; font:inherit; background:#fff; width:100%;
+}
+form .row { display:grid; gap:16px; grid-template-columns:1fr 1fr; }
+@media (max-width:560px) { form .row { grid-template-columns:1fr; } }
+form .hp { position:absolute; left:-9999px; width:1px; height:1px; overflow:hidden; }
+form .consent { display:flex; gap:10px; align-items:flex-start; font-weight:400; font-size:14px; color:var(--muted); margin: 4px 0 14px; }
+form .consent input { margin-top:3px; }
+form .note { font-size:13px; color:var(--muted); margin: 0 0 16px; }
+form button { padding:12px 22px; border:0; border-radius:10px; background:var(--ink); color:#fff; font:inherit; font-weight:700; cursor:pointer; }
+form button:disabled { opacity:.6; cursor:progress; }
+form button.sent { background:#047857; }
+form button.sent:disabled { opacity:1; cursor:default; }
+.feedback { min-height:22px; font-size:14px; margin: 12px 0 0; }
+.feedback.ok { color:#047857; } .feedback.err { color:#b91c1c; }
+.feedback .confirm { display:inline-block; margin:10px 0 6px; padding:12px 22px; border-radius:10px;
+  background:#229ed9; color:#fff; font-weight:700; text-decoration:none; }
+.feedback .confirm:hover { background:#1b87ba; }
+.feedback .confirm.waiting { background:#94a3b8; pointer-events:none; }
+.cta-alert { display:inline-block; margin: 4px 0 22px; padding: 12px 22px; border-radius: 10px;
+  background:#0f172a; color:#fff; font-weight:700; text-decoration:none; font-size:15px; }
+.cta-alert:hover { background:#1e293b; }
+</style>
+
+</head>
+<body>
+<header class="site">
+  <div class="wrap">
+    <strong>Carspitch</strong>
+    <nav class="langs" aria-label="Idioma"><a href="/fr/marques/" hreflang="fr" lang="fr">FR</a><a href="/en/brands/" hreflang="en" lang="en">EN</a><a href="/de/marken/" hreflang="de" lang="de">DE</a><a href="/nl/merken/" hreflang="nl" lang="nl">NL</a><a href="/es/marcas/" hreflang="es" lang="es" aria-current="true">ES</a><a href="/it/marche/" hreflang="it" lang="it">IT</a></nav>
+    <nav class="pages">
+      <a href="/es/">Todas las fichas</a>
+      <a href="/es/marcas/">Marcas</a>
+      <a href="/es/metodo/">Método</a>
+      <a href="/es/acerca-de/">Acerca de</a>
+      <a href="/es/alerta/" class="cta">Alerta</a>
+      <a href="/es/contacto/">Contacto</a>
+    </nav>
+  </div>
+</header>
+<main class="wrap">
+
+<h1>Todas las marcas</h1>
+<p class="sub">57 marcas de automóviles, con el número de modelos documentados y su fiabilidad media.</p>
+<section>
+  <table><thead><tr><th>Brand</th><th>modelos</th><th>Puntuación media</th></tr></thead><tbody><tr><td><a href="/es/marca/toyota/">Toyota</a></td><td>112</td><td><strong>87</strong></td></tr><tr><td><a href="/es/marca/volkswagen/">Volkswagen</a></td><td>92</td><td><strong>75</strong></td></tr><tr><td><a href="/es/marca/bmw/">BMW</a></td><td>92</td><td><strong>77</strong></td></tr><tr><td><a href="/es/marca/renault/">Renault</a></td><td>90</td><td><strong>76</strong></td></tr><tr><td><a href="/es/marca/ford/">Ford</a></td><td>77</td><td><strong>71</strong></td></tr><tr><td><a href="/es/marca/mercedes/">Mercedes</a></td><td>73</td><td><strong>77</strong></td></tr><tr><td><a href="/es/marca/peugeot/">Peugeot</a></td><td>69</td><td><strong>68</strong></td></tr><tr><td><a href="/es/marca/audi/">Audi</a></td><td>67</td><td><strong>75</strong></td></tr><tr><td><a href="/es/marca/kia/">Kia</a></td><td>66</td><td><strong>79</strong></td></tr><tr><td><a href="/es/marca/hyundai/">Hyundai</a></td><td>66</td><td><strong>80</strong></td></tr><tr><td><a href="/es/marca/honda/">Honda</a></td><td>55</td><td><strong>84</strong></td></tr><tr><td><a href="/es/marca/volvo/">Volvo</a></td><td>47</td><td><strong>78</strong></td></tr><tr><td><a href="/es/marca/citroen/">Citroën</a></td><td>44</td><td><strong>64</strong></td></tr><tr><td><a href="/es/marca/mazda/">Mazda</a></td><td>43</td><td><strong>80</strong></td></tr><tr><td><a href="/es/marca/opel/">Opel</a></td><td>43</td><td><strong>67</strong></td></tr><tr><td><a href="/es/marca/nissan/">Nissan</a></td><td>43</td><td><strong>76</strong></td></tr><tr><td><a href="/es/marca/chevrolet/">Chevrolet</a></td><td>37</td><td><strong>72</strong></td></tr><tr><td><a href="/es/marca/skoda/">Skoda</a></td><td>35</td><td><strong>81</strong></td></tr><tr><td><a href="/es/marca/land-rover/">Land Rover</a></td><td>35</td><td><strong>53</strong></td></tr><tr><td><a href="/es/marca/vauxhall/">Vauxhall</a></td><td>30</td><td><strong>61</strong></td></tr><tr><td><a href="/es/marca/subaru/">Subaru</a></td><td>29</td><td><strong>77</strong></td></tr><tr><td><a href="/es/marca/lexus/">Lexus</a></td><td>28</td><td><strong>92</strong></td></tr><tr><td><a href="/es/marca/suzuki/">Suzuki</a></td><td>28</td><td><strong>84</strong></td></tr><tr><td><a href="/es/marca/mini/">MINI</a></td><td>26</td><td><strong>71</strong></td></tr><tr><td><a href="/es/marca/fiat/">Fiat</a></td><td>26</td><td><strong>68</strong></td></tr><tr><td><a href="/es/marca/alfa-romeo/">Alfa Romeo</a></td><td>26</td><td><strong>74</strong></td></tr><tr><td><a href="/es/marca/porsche/">Porsche</a></td><td>26</td><td><strong>76</strong></td></tr><tr><td><a href="/es/marca/seat/">Seat</a></td><td>22</td><td><strong>76</strong></td></tr><tr><td><a href="/es/marca/dacia/">Dacia</a></td><td>21</td><td><strong>80</strong></td></tr><tr><td><a href="/es/marca/mitsubishi/">Mitsubishi</a></td><td>20</td><td><strong>80</strong></td></tr><tr><td><a href="/es/marca/mg/">MG</a></td><td>20</td><td><strong>77</strong></td></tr><tr><td><a href="/es/marca/jeep/">Jeep</a></td><td>19</td><td><strong>67</strong></td></tr><tr><td><a href="/es/marca/jaguar/">Jaguar</a></td><td>19</td><td><strong>67</strong></td></tr><tr><td><a href="/es/marca/ds/">DS</a></td><td>16</td><td><strong>70</strong></td></tr><tr><td><a href="/es/marca/gmc/">GMC</a></td><td>14</td><td><strong>76</strong></td></tr><tr><td><a href="/es/marca/kgm/">KGM</a></td><td>13</td><td><strong>79</strong></td></tr><tr><td><a href="/es/marca/smart/">Smart</a></td><td>12</td><td><strong>68</strong></td></tr><tr><td><a href="/es/marca/genesis/">Genesis</a></td><td>12</td><td><strong>80</strong></td></tr><tr><td><a href="/es/marca/tesla/">Tesla</a></td><td>10</td><td><strong>78</strong></td></tr><tr><td><a href="/es/marca/saab/">Saab</a></td><td>10</td><td><strong>64</strong></td></tr><tr><td><a href="/es/marca/cupra/">CUPRA</a></td><td>6</td><td><strong>82</strong></td></tr><tr><td><a href="/es/marca/alpine/">Alpine</a></td><td>4</td><td><strong>85</strong></td></tr><tr><td><a href="/es/marca/isuzu/">Isuzu</a></td><td>4</td><td><strong>88</strong></td></tr><tr><td><a href="/es/marca/lancia/">Lancia</a></td><td>4</td><td><strong>77</strong></td></tr><tr><td><a href="/es/marca/lynk-co/">Lynk &amp; Co</a></td><td>4</td><td><strong>79</strong></td></tr><tr><td><a href="/es/marca/ram/">Ram</a></td><td>4</td><td><strong>71</strong></td></tr><tr><td><a href="/es/marca/chrysler/">Chrysler</a></td><td>3</td><td><strong>66</strong></td></tr><tr><td><a href="/es/marca/dodge/">Dodge</a></td><td>3</td><td><strong>79</strong></td></tr><tr><td><a href="/es/marca/byd/">BYD</a></td><td>3</td><td><strong>87</strong></td></tr><tr><td><a href="/es/marca/holden/">Holden</a></td><td>3</td><td><strong>77</strong></td></tr><tr><td><a href="/es/marca/polestar/">Polestar</a></td><td>3</td><td><strong>83</strong></td></tr><tr><td><a href="/es/marca/ineos/">Ineos</a></td><td>2</td><td><strong>80</strong></td></tr><tr><td><a href="/es/marca/rivian/">Rivian</a></td><td>2</td><td><strong>73</strong></td></tr><tr><td><a href="/es/marca/abarth/">Abarth</a></td><td>1</td><td><strong>80</strong></td></tr><tr><td><a href="/es/marca/buick/">Buick</a></td><td>1</td><td><strong>55</strong></td></tr><tr><td><a href="/es/marca/suzuki/">SUZUKI</a></td><td>1</td><td><strong>95</strong></td></tr><tr><td><a href="/es/marca/land-rover/">LAND ROVER</a></td><td>1</td><td><strong>40</strong></td></tr></tbody></table>
+</section>
+
+<footer>Fichas elaboradas a partir de fuentes públicas (ADAC, TÜV/DEKRA, What Car?, L’Argus, Auto Plus, llamadas oficiales). Los precios son indicativos.</footer>
+</main>
+</body>
+</html>
