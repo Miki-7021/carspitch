@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Scan des pépites — version autonome, sans base de données.
  *
  *   node scanner/scan.ts            (scan réel)
@@ -252,6 +252,8 @@ async function notifyMatcher(ad: RawAd, target: Target): Promise<void> {
         url: ad.url,
         source: ad.platform,
         external_id: ad.externalId,
+        // Fiche de fiabilité correspondante, pour le lien dans l'alerte.
+        slug: slugFor(target.brand, target.model, ad.year, ad.fuel),
       }),
     });
   } catch (error) {
